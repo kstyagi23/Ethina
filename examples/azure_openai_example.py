@@ -13,7 +13,7 @@ client = AzureOpenAIClient(provider_keys)
 
 # Create chat object
 chat = AzureOpenAIChat(client)
-
+stream = True
 # Prepare input data
 input_data = {
     "model": "DEPLOYMENT_NAME",
@@ -26,9 +26,13 @@ input_data = {
     "frequency_penalty": 0,
     "presence_penalty": 0,
     "stop": None,
-    "stream": False
+    "stream": stream
 }
 
 # Generate response
 response = chat.generate(input_data)
-print(response)
+if stream:
+    for chunk in response:
+        print(chunk)
+else:
+    print(response)
